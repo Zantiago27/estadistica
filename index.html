@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Estadística | UTP Piura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-purple-600 font-bold text-xl">UTP</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Proyecto de Estadística</h1>
+                        <p class="text-sm text-purple-200">Ingeniería - UTP Piura</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Ahorro y Preocupación Financiera en Universitarios
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-purple-100">
+                Análisis Estadístico en Estudiantes de Ingeniería UTP Piura
+            </p>
+            <p class="text-lg text-purple-200 mb-12">
+                Carmen Guevara, A.M. | Fernandes Orozco, C.F. | Cruz Sernaque, J.C.
+            </p>
+        </div>
+    </section>
+
+    <!-- Selección de Formato -->
+    <section class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Selecciona el Formato</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Exposición -->
+                <a href="exposicion.html" class="block">
+                    <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-8 shadow-xl card-hover border-2 border-purple-200 h-full">
+                        <div class="text-center">
+                            <div class="text-6xl mb-6">📊</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Exposición Detallada</h3>
+                            <p class="text-gray-600 mb-6">
+                                Presentación completa con slides navegables, análisis profundo de cada sección 
+                                y gráficos interactivos.
+                            </p>
+                            <div class="space-y-2 text-left text-sm text-gray-700 mb-6">
+                                <div class="flex items-center">
+                                    <span class="text-purple-600 mr-2">✓</span>
+                                    <span>15 slides con navegación</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-purple-600 mr-2">✓</span>
+                                    <span>Análisis detallado por sección</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-purple-600 mr-2">✓</span>
+                                    <span>Ideal para presentar en clase</span>
+                                </div>
+                            </div>
+                            <div class="bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold inline-block">
+                                Ver Exposición →
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Póster -->
+                <a href="poster.html" class="block">
+                    <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 shadow-xl card-hover border-2 border-blue-200 h-full">
+                        <div class="text-center">
+                            <div class="text-6xl mb-6">📄</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Póster Científico</h3>
+                            <p class="text-gray-600 mb-6">
+                                Síntesis visual en formato póster académico con toda la investigación en una página.
+                            </p>
+                            <div class="space-y-2 text-left text-sm text-gray-700 mb-6">
+                                <div class="flex items-center">
+                                    <span class="text-blue-600 mr-2">✓</span>
+                                    <span>Formato de una página</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-blue-600 mr-2">✓</span>
+                                    <span>Estructura académica completa</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-blue-600 mr-2">✓</span>
+                                    <span>Listo para imprimir</span>
+                                </div>
+                            </div>
+                            <div class="bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold inline-block">
+                                Ver Póster →
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datos Rápidos -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Hallazgos Clave</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <p class="text-4xl font-bold text-purple-600 mb-2">43.96%</p>
+                    <p class="text-gray-600">Ahorra menos del 10%</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <p class="text-4xl font-bold text-blue-600 mb-2">14.23%</p>
+                    <p class="text-gray-600">Media de ahorro</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <p class="text-4xl font-bold text-green-600 mb-2">64.84%</p>
+                    <p class="text-gray-600">Quiere educación financiera</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                    <p class="text-4xl font-bold text-orange-600 mb-2">59.34%</p>
+                    <p class="text-gray-600">Compra impulsivamente</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-2">Universidad Tecnológica del Perú - Sede Piura</p>
+            <p class="text-sm text-purple-200">Facultad de Ingeniería | Estadística Descriptiva y Probabilidades</p>
+            <p class="text-sm text-purple-200 mt-2">Docente: Jimmy José Martin Zapata Navarro</p>
+            <p class="text-xs text-purple-300 mt-4">© 2025 - Proyecto de Investigación Estadística</p>
+        </div>
+    </footer>
+
+</body>
+</html>

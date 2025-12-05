@@ -1,410 +1,955 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahorro y Preocupación Financiera en Universitarios | UTP Piura</title>
+    <title>Ahorro y Preocupación Financiera en Universitarios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        * { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        .section-animate { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s forwards; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .chart-container { position: relative; height: 300px; margin: 20px 0; }
-        @media print { .no-print { display: none; } }
-        html { scroll-behavior: smooth; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .gradient-purple {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-blue {
+            background: linear-gradient(135deg, #667eea 0%, #4facfe 100%);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            border: none;
+            padding: 20px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            padding: 20px 20px;
+        }
+
+        .nav-btn.prev {
+            left: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .nav-btn.next {
+            right: 20px;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(102, 126, 234, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            z-index: 1000;
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: scale(1.05);
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    
-    <!-- Header/Navigation -->
-    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                        <span class="text-purple-600 font-bold text-xl">UTP</span>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold">Proyecto de Estadística</h1>
-                        <p class="text-sm text-purple-200">Ingeniería - UTP Piura</p>
-                    </div>
-                </div>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#inicio" class="hover:text-purple-200 transition">Inicio</a>
-                    <a href="#metodologia" class="hover:text-purple-200 transition">Metodología</a>
-                    <a href="#resultados" class="hover:text-purple-200 transition">Resultados</a>
-                    <a href="#conclusiones" class="hover:text-purple-200 transition">Conclusiones</a>
-                    <a href="#autores" class="hover:text-purple-200 transition">Autores</a>
-                </div>
+
+<body>
+
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Pantalla Completa</button>
+    <button class="nav-btn prev" onclick="changeSlide(-1)">‹</button>
+    <button class="nav-btn next" onclick="changeSlide(1)">›</button>
+    <div class="slide-counter"><span id="current">1</span> / <span id="total">15</span></div>
+
+    <!-- SLIDE 1: PORTADA -->
+    <div class="slide active gradient-purple"
+        style="flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 60px;">
+        <h1 style="font-size: 4rem; font-weight: 800; margin-bottom: 30px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+            AHORRO Y PREOCUPACIÓN<br>FINANCIERA EN UNIVERSITARIOS
+        </h1>
+
+        <div
+            style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin-bottom: 30px; max-width: 800px;">
+            <p style="font-size: 1.3rem; margin-bottom: 15px;">Universidad Tecnológica del Perú - Sede Piura</p>
+            <div style="border-top: 2px solid rgba(255,255,255,0.3); padding-top: 20px; margin-top: 20px;">
+                <p style="font-size: 1.1rem; margin-bottom: 10px;"><strong>Autores:</strong></p>
+                <p>Carmen Guevara, Adriana Mercedes</p>
+                <p>Fernandes Orozco, Carlos Fabricio</p>
+                <p>Jonatan Caleb Cruz Sernaque</p>
+                <p>Victor Raul Santiago Silva</p>
             </div>
         </div>
-    </nav>
+        <p style="opacity: 0.8;">Docente: Zapata Navarro, Jimmy José Martin</p>
+        <p style="opacity: 0.8;">Curso: Estadística Descriptiva y Probabilidades</p>
+        <p style="margin-top: 20px; font-size: 1.2rem; opacity: 0.9;">Piura, 2025</p>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="gradient-bg text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 section-animate">
-                Ahorro y Preocupación Financiera en Universitarios
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 text-purple-100 section-animate" style="animation-delay: 0.2s">
-                Análisis Estadístico en Estudiantes de Ingeniería UTP Piura
-            </p>
-            <div class="flex flex-wrap justify-center gap-4 section-animate" style="animation-delay: 0.4s">
-                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
-                    <p class="text-3xl font-bold">91</p>
-                    <p class="text-sm">Estudiantes</p>
-                </div>
-                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
-                    <p class="text-3xl font-bold">14.23%</p>
-                    <p class="text-sm">Ahorro Promedio</p>
-                </div>
-                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
-                    <p class="text-3xl font-bold">64.84%</p>
-                    <p class="text-sm">Quiere Educación</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Resumen -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Resumen Ejecutivo</h2>
-                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
-            </div>
-            
-            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg">
-                <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                    Este estudio analiza los hábitos de ahorro y preocupación financiera de 91 estudiantes 
-                    de la Facultad de Ingeniería de la UTP Piura mediante técnicas de estadística descriptiva 
-                    y probabilística. Los resultados revelan una cultura de ahorro débil y heterogénea, con 
-                    oportunidades claras de intervención educativa.
-                </p>
-                
-                <div class="grid md:grid-cols-3 gap-6 mt-8">
-                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
-                        <div class="text-red-500 text-4xl mb-3">⚠️</div>
-                        <h3 class="font-bold text-lg mb-2">Problema Principal</h3>
-                        <p class="text-gray-600">43.96% ahorra menos del 10% de sus ingresos</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
-                        <div class="text-blue-500 text-4xl mb-3">📊</div>
-                        <h3 class="font-bold text-lg mb-2">Alta Dispersión</h3>
-                        <p class="text-gray-600">CV = 71.59% indica comportamientos muy heterogéneos</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
-                        <div class="text-green-500 text-4xl mb-3">✅</div>
-                        <h3 class="font-bold text-lg mb-2">Oportunidad</h3>
-                        <p class="text-gray-600">64.84% está interesado en educación financiera</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Metodología -->
-    <section id="metodologia" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Metodología</h2>
-                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gradient-to-br from-purple-50 to-white rounded-xl p-6 shadow-lg card-hover">
-                    <div class="text-purple-600 text-3xl mb-4">🔬</div>
-                    <h3 class="text-xl font-bold mb-3">Tipo de Investigación</h3>
-                    <ul class="space-y-2 text-gray-700">
-                        <li>• Cuantitativa</li>
-                        <li>• Descriptiva-correlacional</li>
-                        <li>• No experimental transversal</li>
-                        <li>• Sept-Oct 2025</li>
+    <!-- SLIDE 2: INTRODUCCIÓN -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 60px; text-align: center;">
+                INTRODUCCIÓN Y PROBLEMA
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+                <div>
+                    <h3 style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 30px;">
+                        🎓 El Ahorro en Universitarios
+                    </h3>
+                    <ul style="font-size: 1.3rem; color: #374151; line-height: 2.5;">
+                        <li>• Ingresos limitados</li>
+                        <li>• Escaso conocimiento económico</li>
+                        <li>• Gestión financiera sin presupuesto sólido</li>
+                        <li>• Presentan tensión e incertidumbre financiera</li>
                     </ul>
                 </div>
+                <div>
+                    <h3 style="font-size: 2rem; font-weight: 700; color: #dc2626; margin-bottom: 30px;">
+                        ⚠️ Problemática Identificada
+                    </h3>
+                    <div
+                        style="background: #fee2e2; border-left: 6px solid #dc2626; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+                        <p style="font-size: 1.2rem; color: #374151; font-style: italic; line-height: 1.8;">
+                            "Los jóvenes poseen escasos conocimientos sobre el uso adecuado de sus finanzas"
+                        </p>
+                        <p style="font-size: 1rem; color: #6b7280; margin-top: 15px;">— Estrada et al., 2017</p>
+                    </div>
+                    <ul style="font-size: 1.2rem; color: #374151; line-height: 2.2;">
+                        <li>✗ Dificultad para ahorrar</li>
+                        <li>✗ Presentan un bajo nivel de ahorro (menor al 10%)</li>
+                        <li>✗ Alta tendencia a compras impulsivas</li>
+                        <li>✗ Baja eduacion financiera</li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="margin-top: 50px; background: linear-gradient(135deg, #667eea20, #764ba220); border-radius: 15px; padding: 35px; text-align: center;">
+                <p style="font-size: 1.6rem; color: #374151; font-style: italic; font-weight: 600;">
+                    "La cultura de ahorro es la base del crecimiento y elemento fundamental para el desarrollo"
+                </p>
+                <p style="font-size: 1.2rem; color: #6b7280; margin-top: 15px;">— Aponte, 2017</p>
+            </div>
+        </div>
+    </div>
 
-                <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl p-6 shadow-lg card-hover">
-                    <div class="text-blue-600 text-3xl mb-4">👥</div>
-                    <h3 class="text-xl font-bold mb-3">Muestra</h3>
-                    <ul class="space-y-2 text-gray-700">
+    <!-- SLIDE 3: OBJETIVOS -->
+    <div class="slide"
+        style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                OBJETIVOS DE INVESTIGACIÓN
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px; margin-bottom: 40px;">
+                <h3 style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 25px;">🎯 OBJETIVO GENERAL
+                </h3>
+                <p style="font-size: 1.5rem; color: #374151; line-height: 1.8;">
+                    Analizar los hábitos de ahorro y el nivel de preocupación financiera de estudiantes de Ingeniería
+                    UTP Piura mediante estadística descriptiva y probabilística.
+                </p>
+            </div>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
+                <h3 style="font-size: 2rem; font-weight: 700; color: #4facfe; margin-bottom: 35px;">📋 OBJETIVOS
+                    ESPECÍFICOS</h3>
+                <div style="display: flex; flex-direction: column; gap: 30px;">
+                    <div style="display: flex; gap: 20px; align-items: start;">
+                        <div
+                            style="min-width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">
+                            1</div>
+                        <p style="font-size: 1.3rem; color: #374151; line-height: 1.7;">
+                            <strong>Describir</strong> el comportamiento de ahorro mediante tablas de contingencia y
+                            medidas estadísticas (tendencia, variacion, forma, etc.)
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: start;">
+                        <div
+                            style="min-width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">
+                            2</div>
+                        <p style="font-size: 1.3rem; color: #374151; line-height: 1.7;">
+                            <strong>Evaluar</strong> la relación entre variables demográficas y de comportamiento con el
+                            nivel de ahorro
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 20px; align-items: start;">
+                        <div
+                            style="min-width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">
+                            3</div>
+                        <p style="font-size: 1.3rem; color: #374151; line-height: 1.7;">
+                            <strong>Calcular</strong> probabilidades aplicando probabilidad condicional y el Teorema de
+                            Bayes
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: METODOLOGÍA -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1500px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                METODOLOGÍA
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
+                <div
+                    style="background: linear-gradient(135deg, #667eea15, #764ba215); border: 3px solid #667eea; border-radius: 20px; padding: 35px; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🔬</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #667eea; margin-bottom: 20px;">Tipo de
+                        Investigación</h3>
+                    <ul style="font-size: 1.1rem; color: #374151; text-align: left; line-height: 2;">
+                        <li>• Cuantitativa</li>
+                        <li>• Descriptiva-correlacional</li>
+                        <li>• No experimental</li>
+                        <li>• Prediodo: Sept-Oct 2025</li>
+                    </ul>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #4facfe15, #00f2fe15); border: 3px solid #4facfe; border-radius: 20px; padding: 35px; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">👥</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #4facfe; margin-bottom: 20px;">Muestra</h3>
+                    <ul style="font-size: 1.1rem; color: #374151; text-align: left; line-height: 2;">
                         <li>• <strong>n = 91</strong> estudiantes</li>
                         <li>• 46 mujeres (50.5%)</li>
                         <li>• 45 hombres (49.5%)</li>
                         <li>• Muestreo no probabilístico</li>
                     </ul>
                 </div>
-
-                <div class="bg-gradient-to-br from-green-50 to-white rounded-xl p-6 shadow-lg card-hover">
-                    <div class="text-green-600 text-3xl mb-4">📝</div>
-                    <h3 class="text-xl font-bold mb-3">Instrumento</h3>
-                    <ul class="space-y-2 text-gray-700">
-                        <li>• Encuesta digital (Google Forms)</li>
+                <div
+                    style="background: linear-gradient(135deg, #10b98115, #0ea5e915); border: 3px solid #10b981; border-radius: 20px; padding: 35px; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">📝</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #10b981; margin-bottom: 20px;">Instrumento
+                    </h3>
+                    <ul style="font-size: 1.1rem; color: #374151; text-align: left; line-height: 2;">
+                        <li>• Encuesta digital</li>
                         <li>• 11 preguntas cerradas</li>
                         <li>• 5 bloques temáticos</li>
-                        <li>• Participación voluntaria</li>
+                        <li>• Se utilizo Google Forms</li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </section>
+            <div style="background: #f9fafb; border-radius: 20px; padding: 40px;">
+                <h3
+                    style="font-size: 1.8rem; font-weight: 700; color: #1f2937; margin-bottom: 25px; text-align: center;">
+                    Variables del Estudio</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px;">
+                    <div>
+                        <h4 style="font-size: 1.3rem; font-weight: 700; color: #667eea; margin-bottom: 15px;">
+                            Cualitativas:</h4>
+                        <p style="font-size: 1.1rem; color: #374151; line-height: 1.8;">
+                            Genero, Tipo de gasto frecuente, Método de ahorro, Uso de dinero extra, Frecuencia de presupuesto, 
+                            Frecuencia de ahorro, Frecuencia de compras impulsivas, Nivel de preocupación por futuro financiero.
 
-    <!-- Resultados -->
-    <section id="resultados" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Resultados Principales</h2>
-                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
-            </div>
+                        </p>
 
-            <!-- Gráfico 1 -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Distribución del Porcentaje de Ahorro</h3>
-                <div class="chart-container">
-                    <canvas id="chartAhorro"></canvas>
+                        <h4 style="font-size: 1.3rem; font-weight: 700; color: #667eea; margin-bottom: 15px;">
+                            Cualitativas dicotómicas:</h4>
+                        <p style="font-size: 1.1rem; color: #374151; line-height: 1.8;">
+                            Interés en educación financiera (Sí/No), ¿Afecta el gasto al rendimiento académico? (Sí/No).
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 1.3rem; font-weight: 700; color: #4facfe; margin-bottom: 15px;">
+                            Cuantitativas:</h4>
+                        <p style="font-size: 1.1rem; color: #374151; line-height: 1.8;">Porcentaje de ahorro estimado
+                        </p>
+                        <h4
+                            style="font-size: 1.3rem; font-weight: 700; color: #10b981; margin-bottom: 15px; margin-top: 20px;">
+                            Análisis:</h4>
+                        <p style="font-size: 1.1rem; color: #374151; line-height: 1.8;">Frecuencias, Medidas
+                            estadísticas, Teorema de Bayes</p>
+                    </div>
                 </div>
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-gray-700">
-                        <strong>Análisis:</strong> 43.96% ahorra menos del 10%. Media: 14.23%, Mediana: 11.90%.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: DISTRIBUCIÓN DE AHORRO -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 40px; text-align: center;">
+                DISTRIBUCIÓN DEL PORCENTAJE DE AHORRO
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
+                <div class="chart-container">
+                    <canvas id="chart1"></canvas>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 40px;">
+                    <div
+                        style="background: linear-gradient(135deg, #3b82f615, #2563eb15); border-radius: 15px; padding: 25px; text-align: center; border: 2px solid #3b82f6;">
+                        <p style="font-size: 3rem; font-weight: 800; color: #3b82f6;">43.96%</p>
+                        <p style="font-size: 1.1rem; color: #374151; margin-top: 10px;">Ahorra menos del 10%</p>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, #667eea15, #764ba215); border-radius: 15px; padding: 25px; text-align: center; border: 2px solid #667eea;">
+                        <p style="font-size: 3rem; font-weight: 800; color: #667eea;">14.23%</p>
+                        <p style="font-size: 1.1rem; color: #374151; margin-top: 10px;">Media de ahorro</p>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, #10b98115, #059e6915); border-radius: 15px; padding: 25px; text-align: center; border: 2px solid #10b981;">
+                        <p style="font-size: 3rem; font-weight: 800; color: #10b981;">71.59%</p>
+                        <p style="font-size: 1.1rem; color: #374151; margin-top: 10px;">Coef. Variación</p>
+                    </div>
+                </div>
+                <div
+                    style="margin-top: 30px; padding: 25px; background: #eff6ff; border-radius: 15px; border-left: 5px solid #3b82f6;">
+                    <p style="font-size: 1.2rem; color: #374151; text-align: center; line-height: 1.7;">
+                        <strong>Análisis:</strong> la mayoría de estudiantes (40) que representa el 43.96% ahorra menos del 10% de sus ingresos. Ademas la distribución presenta asimetría positiva (0.687), indicando que los valores se concentran en los rangos inferiores con pocos casos de ahorro elevado (más del 30%).
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Gráfico 2 -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Comparación por Género</h3>
+    <!-- SLIDE 6: AHORRO POR GÉNERO -->
+    <div class="slide"
+        style="background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 40px; text-align: center;">
+                AHORRO POR GÉNERO
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
                 <div class="chart-container">
-                    <canvas id="chartGenero"></canvas>
+                    <canvas id="chart2"></canvas>
                 </div>
-                <div class="mt-6 p-4 bg-purple-50 rounded-lg">
-                    <p class="text-gray-700">
-                        <strong>Análisis:</strong> Mujeres ahorran mejor: 17.39% >30% vs 6.67% en hombres.
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+                    <div
+                        style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); border-radius: 15px; padding: 30px; border: 3px solid #ec4899;">
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: #ec4899; margin-bottom: 20px;">👩 MUJERES
+                        </h3>
+                        <ul style="font-size: 1.2rem; color: #374151; line-height: 2.2;">
+                            <li>✓ 17.39% ahorra >30%</li>
+                            <li>✓ 34.78% ahorra 10% </li>
+                            <li>✓ Mejores habitos de ahorro</li>
+                            <li>✓ Mayor tasa de ahorro de mayor al 30%</li>
+                        </ul>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 15px; padding: 30px; border: 3px solid #3b82f6;">
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: #3b82f6; margin-bottom: 20px;">👨 HOMBRES
+                        </h3>
+                        <ul style="font-size: 1.2rem; color: #374151; line-height: 2.2;">
+                            <li>✓ solo el 6.67% ahorra mas del 30%</li>
+                            <li>✓ 53.33% ahorra menos del 10%</li>
+                            <li>✓ Tiene menor procentaje de ahorro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: PLANIFICACIÓN -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1500px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 40px; text-align: center;">
+                PLANIFICACIÓN FINANCIERA
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div
+                    style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 40px;">
+                    <h3
+                        style="font-size: 1.8rem; font-weight: 700; color: #1f2937; margin-bottom: 30px; text-align: center;">
+                        Frecuencia de Presupuesto</h3>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center; gap: 30px;">
+                    <div
+                        style="background: linear-gradient(135deg, #fee2e2, #fecaca); border-left: 6px solid #dc2626; border-radius: 15px; padding: 35px;">
+                        <h3 style="font-size: 2rem; font-weight: 700; color: #dc2626; margin-bottom: 20px;">⚠️ PROBLEMA
+                        </h3>
+                        <p style="font-size: 1.5rem; color: #374151; margin-bottom: 20px;">
+                            <strong>70.33%</strong> NO hace presupuesto consistente
+                        </p>
+                        <ul style="font-size: 1.2rem; color: #374151; line-height: 2;">
+                            <li>• 17.58% Nunca</li>
+                            <li>• 52.75% A veces</li>
+                            <li>• 29.67% Siempre</li>
+                        </ul>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-left: 6px solid #10b981; border-radius: 15px; padding: 35px;">
+                        <h3 style="font-size: 1.8rem; font-weight: 700; color: #10b981; margin-bottom: 15px;">✓ RELACIÓN
+                            DIRECTA CON NIVEL DE AHORRO</h3>
+                        <p style="font-size: 1.2rem; color: #374151; line-height: 1.8;">
+                            El 62.5% que nunca presupuesto →  ahorra menos 10% y nunca ahorran mas del 30%<br>
+                            El 25.93% que siempre hace presupuesto →  ahorra mas 30%
+                        </p>
+                        <p
+                            style="font-size: 1.1rem; color: #059669; margin-top: 15px; font-style: italic; font-weight: 600;">
+                            La elaboracion de un presupuesto aunmenta la probabilidad del nivel de ahorro
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TIPOS DE GASTO -->
+    <div class="slide"
+        style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 40px; text-align: center;">
+                PATRONES DE GASTO
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
+                <div class="chart-container">
+                    <canvas id="chart4"></canvas>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+                    <div
+                        style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 15px; padding: 30px; border: 3px solid #3b82f6;">
+                        <h3 style="font-size: 1.6rem; font-weight: 700; color: #3b82f6; margin-bottom: 20px;">Gastos
+                            Básicos (47.25%)</h3>
+                        <ul style="font-size: 1.3rem; color: #374151; line-height: 2.2;">
+                            <li>🚌 Transporte: 27.47%</li>
+                            <li>🍔 Comida: 19.78%</li>
+                        </ul>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, #fed7aa, #fdba74); border-radius: 15px; padding: 30px; border: 3px solid #f97316;">
+                        <h3 style="font-size: 1.6rem; font-weight: 700; color: #f97316; margin-bottom: 20px;">Gastos
+                            Discrecionales (39.56%)</h3>
+                        <ul style="font-size: 1.3rem; color: #374151; line-height: 2.2;">
+                            <li>📱 Tecnología: 23.08%</li>
+                            <li>👕 Ropa/Moda: 16.48%</li>
+                        </ul>
+                    </div>
+                </div>
+                <div
+                    style="margin-top: 30px; padding: 25px; background: #fef3c7; border-radius: 15px; border-left: 5px solid #f59e0b; text-align: center;">
+                    <p style="font-size: 1.3rem; color: #374151; line-height: 1.7;">
+                        <strong>Analisis:</strong> El transporte lidera como gasto más frecuente seguido muy de cerca por tecnología/entretenimiento. Los gastos básicos (transporte + comida) representan el casi el 50% de gastos
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Más Gráficos -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Frecuencia de Presupuesto</h3>
-                <div class="chart-container">
-                    <canvas id="chartPresupuesto"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Tipo de Gasto</h3>
-                <div class="chart-container">
-                    <canvas id="chartGasto"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Compras Impulsivas</h3>
-                <div class="chart-container">
-                    <canvas id="chartImpulsivas"></canvas>
+    <!-- SLIDE 9: COMPRAS IMPULSIVAS -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 40px; text-align: center;">
+                COMPRAS IMPULSIVAS
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+                    <div style="height: 400px; position: relative;">
+                        <canvas id="chart5"></canvas>
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <div
+                            style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 5px solid #dc2626; border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 30px;">
+                            <p style="font-size: 5rem; font-weight: 800; color: #dc2626; line-height: 1;">59.34%</p>
+                            <p style="font-size: 1.5rem; color: #374151; font-weight: 600; margin-top: 15px;">
+                                Compra impulsivamente con regularidad
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div
+                                style="background: #fed7aa; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.3rem; color: #374151;">A veces</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: #ea580c;">50.55%</span>
+                            </div>
+                            <div
+                                style="background: #fecaca; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.3rem; color: #374151;">Muy frecuentemente</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: #dc2626;">8.79%</span>
+                            </div>
+                            <div
+                                style="background: #d1fae5; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 1.3rem; color: #374151;">Nunca</span>
+                                <span style="font-size: 1.5rem; font-weight: 700; color: #10b981;">4.40%</span>
+                            </div>
+                        </div>
+                        <div
+                            style="margin-top: 25px; padding: 20px; background: #fef3c7; border-radius: 12px; text-align: center;">
+                            <p style="font-size: 1.2rem; color: #374151; font-style: italic;">
+                                Este consumo emocional representa una "fuga" crítica que afecta los esfuerzos de ahorro. La concentración en la categoría "A veces" indica que no son compradores compulsivos crónicos, sino que carecen de estrategias de autocontrol.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Conclusiones -->
-    <section id="conclusiones" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Conclusiones y Recomendaciones</h2>
-                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+    <!-- SLIDE 10: TEOREMA DE BAYES -->
+    <div class="slide gradient-purple"
+        style="padding: 80px; align-items: center; justify-content: center; color: white;">
+        <div style="max-width: 1500px; width: 100%;">
+            <h2
+                style="font-size: 3.5rem; font-weight: 800; margin-bottom: 50px; text-align: center; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+                ANÁLISIS PROBABILÍSTICO: TEOREMA DE BAYES
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; text-align: center;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 25px;">CASO 1</h3>
+                    <p style="font-size: 4.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1;">57.14%</p>
+                    <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">De Mujeres que gastan en
+                        transporte ahorran frecuentemente</p>
+                    <p style="font-size: 1.5rem; opacity: 0.9;">→ Tienen Disciplina aun con gastos fijos elevados</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; text-align: center;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 25px;">CASO 2</h3>
+                    <p style="font-size: 4.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1;">6.67%</p>
+                    <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">Estudiantes "poco preocupados"
+                        ahorran mas 30%</p>
+                    <p style="font-size: 1.5rem; opacity: 0.9;">→ La Preocupación no mejora el nivel de ahorro</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; text-align: center;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 25px;">CASO 3 (Invertido)</h3>
+                    <p style="font-size: 4.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1;">87.5%</p>
+                    <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">De Estudiantes que ahorran poco <strong>SÍ
+                        están preocupados </strong></p>
+                    <p style="font-size: 1.5rem; opacity: 0.9;">→ Falta capacidad, no conciencia</p>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-xl font-bold mb-4 text-purple-600">Conclusiones Principales</h3>
-                    <ul class="space-y-3 text-gray-700">
-                        <li>✓ Cultura de ahorro débil (43.96% <10%)</li>
-                        <li>✓ Falta de planificación (70% sin presupuesto)</li>
-                        <li>✓ Mujeres ahorran mejor que hombres</li>
-                        <li>✓ Alto consumo impulsivo (59.34%)</li>
-                        <li>✓ 64.84% quiere educación financiera</li>
+    <!-- SLIDE 11: CONCLUSIONES 1 -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                CONCLUSIONES PRINCIPALES RESUMIDAS
+            </h2>
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <div
+                    style="background: linear-gradient(135deg, #fee2e2, white); border-left: 6px solid #dc2626; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="font-size: 1.8rem; font-weight: 700; color: #dc2626; margin-bottom: 10px;">1️⃣ Cultura de
+                        Ahorro Débil</h3>
+                    <p style="font-size: 1.3rem; color: #374151; line-height: 1.8;">
+                        El 43.96% ahorra menos del 10% (Media: 14.23%). Alta dispersion (CV=71.59%). Solo el 12.09% ahorra mas del 30%.
+                    </p>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #fed7aa, white); border-left: 6px solid #f97316; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="font-size: 1.8rem; font-weight: 700; color: #f97316; margin-bottom: 10px;">2️⃣ Falta de
+                        Planificación</h3>
+                    <p style="font-size: 1.3rem; color: #374151; line-height: 1.8;">
+                        70.33% no elabora presupuesto consistente. El presupuesto aumenta la probabilidad de un procentaje de buen
+                        ahorro.
+                    </p>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #e9d5ff, white); border-left: 6px solid #a855f7; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="font-size: 1.8rem; font-weight: 700; color: #a855f7; margin-bottom: 10px;">3️⃣
+                        Diferencias de Género</h3>
+                    <p style="font-size: 1.3rem; color: #374151; line-height: 1.8;">
+                        Mujeres: 17.39% ahorra mas del 30% vs solo el 6.67% hombres. Las mujeres tienen una mayor disciplina presupuestaria. Pero los hombre Hombres tienen una mayor
+                        disposición a recibir educación (68.89%).
+                    </p>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #fef3c7, white); border-left: 6px solid #f59e0b; border-radius: 20px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="font-size: 1.8rem; font-weight: 700; color: #f59e0b; margin-bottom: 10px;">4️⃣ Alto
+                        Consumo Impulsivo</h3>
+                    <p style="font-size: 1.3rem; color: #374151; line-height: 1.8;">
+                        El 59.34% realiza compras impulsivas regularmente. Efectando de manera negativa la capacidad de ahorro.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: CONCLUSIONES 2 -->
+    <div class="slide"
+        style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                PARADOJA FINANCIERA
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); padding: 60px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 40px;">
+                    <div style="text-align: center;">
+                        <div
+                            style="background: linear-gradient(135deg, #fee2e2, #fecaca); border-radius: 20px; padding: 40px; border: 4px solid #dc2626;">
+                            <p style="font-size: 5rem; font-weight: 800; color: #dc2626; line-height: 1;">58.25%</p>
+                            <p style="font-size: 1.5rem; color: #374151; margin-top: 15px; font-weight: 600;">Preocupado
+                                por sus finanzas</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div
+                            style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-radius: 20px; padding: 40px; border: 4px solid #10b981;">
+                            <p style="font-size: 5rem; font-weight: 800; color: #10b981; line-height: 1;">64.84%</p>
+                            <p style="font-size: 1.5rem; color: #374151; margin-top: 15px; font-weight: 600;">Quiere
+                                educación financiera</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 20px; padding: 40px; text-align: center; border: 4px solid #eaf63b;">
+                    <p style="font-size: 2.2rem; font-weight: 700; color: #1f2937; margin-bottom: 20px;">
+                        ⚠️ PERO...
+                    </p>
+                    <p style="font-size: 1.6rem; color: #374151; line-height: 1.7;">
+                        La <strong>preocupación NO se traduce en ahorro efectivo</strong><br>
+                        <span style="color: #3b82f6; font-weight: 600;">→ Existe conciencia pero falta disciplina, capacidad y
+                            conocimiento práctico</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: RECOMENDACIONES -->
+    <div class="slide" style="background: white; padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1400px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                RECOMENDACIONES
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+                <div
+                    style="background: linear-gradient(135deg, #667eea15, #764ba215); border: 3px solid #667eea; border-radius: 20px; padding: 35px;">
+                    <div style="text-align: center; font-size: 3.5rem; margin-bottom: 20px;">🏫</div>
+                    <h3
+                        style="font-size: 1.6rem; font-weight: 700; color: #667eea; margin-bottom: 20px; text-align: center;">
+                        Para la Universidad</h3>
+                    <ul style="font-size: 1.1rem; color: #374151; line-height: 2;">
+                        <li>✓ Talleres obligatorios de educación financiera</li>
+                        <li>✓ Incorporar finanzas en currícula</li>
+                        <li>✓ Promover uso de apps de presupuesto</li>
                     </ul>
                 </div>
-
-                <div class="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 class="text-xl font-bold mb-4 text-green-600">Recomendaciones</h3>
-                    <ul class="space-y-3 text-gray-700">
-                        <li>🏛️ Talleres de educación financiera</li>
-                        <li>👨‍🎓 Método 50/30/20 para estudiantes</li>
-                        <li>💰 Ahorro automático mensual</li>
-                        <li>📱 Apps de presupuesto</li>
-                        <li>🔬 Ampliar investigación a otras facultades</li>
+                <div
+                    style="background: linear-gradient(135deg, #4facfe15, #00f2fe15); border: 3px solid #4facfe; border-radius: 20px; padding: 35px;">
+                    <div style="text-align: center; font-size: 3.5rem; margin-bottom: 20px;">🎓</div>
+                    <h3
+                        style="font-size: 1.6rem; font-weight: 700; color: #4facfe; margin-bottom: 20px; text-align: center;">
+                        Para Estudiantes</h3>
+                    <ul style="font-size: 1.1rem; color: #374151; line-height: 2;">
+                        <li>✓ Método 50/30/20</li>
+                        <li>✓ Ahorro automático 10-15%</li>
+                    </ul>
+                </div>
+                <div
+                    style="background: linear-gradient(135deg, #10b98115, #0ea5e915); border: 3px solid #10b981; border-radius: 20px; padding: 35px;">
+                    <div style="text-align: center; font-size: 3.5rem; margin-bottom: 20px;">🔬</div>
+                    <h3
+                        style="font-size: 1.6rem; font-weight: 700; color: #10b981; margin-bottom: 20px; text-align: center;">
+                        Investigaciones Futuras</h3>
+                    <ul style="font-size: 1.1rem; color: #374151; line-height: 2;">
+                        <li>✓ Ampliar estudio a otras facultades</li>
+                        <li>✓ Profundizar factores causales del bajo nivel de ahorro</li>
+                        <li>✓ Añadir variables: ciclo, trabajo, nivel socioeconómico</li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Autores -->
-    <section id="autores" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Equipo de Investigación</h2>
-                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-8 mb-12">
-                <div class="text-center">
-                    <div class="w-32 h-32 bg-purple-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
-                        👩‍💼
-                    </div>
-                    <h3 class="font-bold text-lg">Adriana Mercedes Carmen Guevara</h3>
-                    <p class="text-gray-600">Investigadora</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-32 h-32 bg-blue-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
-                        👨‍💼
-                    </div>
-                    <h3 class="font-bold text-lg">Carlos Fabricio Fernandes Orozco</h3>
-                    <p class="text-gray-600">Investigador</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-32 h-32 bg-green-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
-                        👨‍💼
-                    </div>
-                    <h3 class="font-bold text-lg">Jonatan Caleb Cruz Sernaque</h3>
-                    <p class="text-gray-600">Investigador</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-32 h-32 bg-green-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
-                        👨‍💼
-                    </div>
-                    <h3 class="font-bold text-lg">Victor Raul Santiago Silva</h3>
-                    <p class="text-gray-600">Investigador</p>
-                </div>
-            </div>
-
-            <div class="text-center bg-gray-50 rounded-xl p-6">
-                <p class="text-gray-700 mb-2">
-                    <strong>Docente:</strong> Jimmy José Martin Zapata Navarro
-                </p>
-                <p class="text-gray-700 mb-2">
-                    <strong>Curso:</strong> Estadística Descriptiva y Probabilidades
-                </p>
-                <p class="text-gray-700">
-                    <strong>Universidad:</strong> Universidad Tecnológica del Perú - Sede Piura
+            <div
+                style="margin-top: 40px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);">
+                <p style="font-size: 1.8rem; font-weight: 700; line-height: 1.6;">
+                    💡 La educación financiera debe ser práctica, continua y adaptada a la realidad estudiantil
                 </p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer class="gradient-bg text-white py-8 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>© 2025 UTP Piura - Proyecto de Estadística</p>
-            <p class="text-sm text-purple-200 mt-2">Facultad de Ingeniería</p>
+    <!-- SLIDE 14: REFERENCIAS -->
+    <div class="slide"
+        style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 80px; align-items: center; justify-content: center;">
+        <div style="max-width: 1200px; width: 100%;">
+            <h2 style="font-size: 3.5rem; font-weight: 800; color: #1f2937; margin-bottom: 50px; text-align: center;">
+                REFERENCIAS BIBLIOGRÁFICAS
+            </h2>
+            <div
+                style="background: white; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 50px;">
+                <ul style="font-size: 1.2rem; color: #374151; line-height: 2.5; list-style: none;">
+                    <li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;">
+                        📚 Ramírez Rodríguez, A., & Vázquez Velazco, M. (2021). Análisis de la cultura de ahorro en
+                        estudiantes universitarios. <em>Ciencia Latina Revista Científica Multidisciplinar</em>, 5(6),
+                        1379–1387.
+                    </li>
+                    <li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;">
+                        📚 Estrada et al. (2017). Conocimientos financieros en jóvenes universitarios.
+                    </li>
+                    <li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;">
+                        📚 Aponte (2017). Cultura de ahorro y desarrollo económico.
+                    </li>
+                    <li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;">
+                        📚 López (2016). Gestión de finanzas personales.
+                    </li>
+                    <li style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;">
+                        📚 Sierra (2018). Educación financiera y estructura de ingresos.
+                    </li>
+                    <li>
+                        📚 Elgegren (2021). Fondos de ahorro universitario.
+                    </li>
+                </ul>
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <!-- SLIDE 15: CIERRE -->
+    <div class="slide gradient-purple"
+        style="flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 80px;">
+        <div style="font-size: 8rem; margin-bottom: 40px;">🎓</div>
+        <h1 style="font-size: 5rem; font-weight: 800; margin-bottom: 40px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+            ¡GRACIAS POR SU ATENCIÓN!
+        </h1>
+        <div
+            style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; max-width: 800px; margin-bottom: 40px;">
+            <p style="font-size: 2rem; font-weight: 600; margin-bottom: 20px;">
+                Universidad Tecnológica del Perú
+            </p>
+            <p style="font-size: 1.5rem; opacity: 0.95;">
+                Facultad de Ingeniería - Sede Piura
+            </p>
+        </div>
+        <p style="font-size: 2.5rem; font-weight: 700; margin-top: 40px;">
+            ¿PREGUNTAS?
+        </p>
+    </div>
 
     <script>
-        // Gráfico 1: Distribución de Ahorro
-        const ctx1 = document.getElementById('chartAhorro').getContext('2d');
-        new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Menos del 10%', 'Entre 10% y 20%', 'Entre 20% y 30%', 'Más del 30%'],
-                datasets: [{
-                    label: 'Frecuencia',
-                    data: [40, 29, 11, 11],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    title: { display: true, text: 'n = 91 estudiantes' }
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current').textContent = currentSlide + 1;
+
+            if (currentSlide === 4) initChart1();
+            if (currentSlide === 5) initChart2();
+            if (currentSlide === 6) initChart3();
+            if (currentSlide === 7) initChart4();
+            if (currentSlide === 8) initChart5();
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function initChart1() {
+            const ctx = document.getElementById('chart1');
+            if (!ctx || ctx.chartInitialized) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Menos del 10%', 'Entre 10% y 20%', 'Entre 20% y 30%', 'Más del 30%'],
+                    datasets: [{
+                        label: 'Estudiantes',
+                        data: [40, 29, 11, 11],
+                        backgroundColor: ['#ef4444', '#f97316', '#f59e0b', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Distribución de Estudiantes por Nivel de Ahorro', font: { size: 18 } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Número de Estudiantes' } }
+                    }
                 }
-            }
-        });
+            });
+            ctx.chartInitialized = true;
+        }
 
-        // Gráfico 2: Género
-        const ctx2 = document.getElementById('chartGenero').getContext('2d');
-        new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['Menos del 10%', '10-20%', '20-30%', 'Más 30%'],
-                datasets: [{
-                    label: 'Mujeres',
-                    data: [16, 16, 6, 8],
-                    backgroundColor: '#ec4899'
-                }, {
-                    label: 'Hombres',
-                    data: [24, 13, 5, 3],
-                    backgroundColor: '#3b82f6'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+        function initChart2() {
+            const ctx = document.getElementById('chart2');
+            if (!ctx || ctx.chartInitialized) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Menos del 10%', 'Entre 10% y 20%', 'Entre 20% y 30%', 'Más del 30%'],
+                    datasets: [
+                        { label: 'Mujeres', data: [16, 16, 6, 8], backgroundColor: '#ec4899' },
+                        { label: 'Hombres', data: [24, 13, 5, 3], backgroundColor: '#3b82f6' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Nivel de Ahorro por Género', font: { size: 18 } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Número de Estudiantes' } }
+                    }
+                }
+            });
+            ctx.chartInitialized = true;
+        }
 
-        // Gráfico 3: Presupuesto
-        const ctx3 = document.getElementById('chartPresupuesto').getContext('2d');
-        new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: ['Nunca', 'A veces', 'Siempre'],
-                datasets: [{
-                    data: [16, 48, 27],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+        function initChart3() {
+            const ctx = document.getElementById('chart3');
+            if (!ctx || ctx.chartInitialized) return;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Nunca (17.58%)', 'A veces (52.75%)', 'Siempre (29.67%)'],
+                    datasets: [{
+                        data: [16, 48, 27],
+                        backgroundColor: ['#dc2626', '#f59e0b', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 14 } } },
+                        title: { display: false }
+                    }
+                }
+            });
+            ctx.chartInitialized = true;
+        }
 
-        // Gráfico 4: Gasto
-        const ctx4 = document.getElementById('chartGasto').getContext('2d');
-        new Chart(ctx4, {
-            type: 'bar',
-            data: {
-                labels: ['Transporte', 'Tecnología', 'Comida', 'Ropa', 'Otro'],
-                datasets: [{
-                    label: 'Frecuencia',
-                    data: [25, 21, 18, 15, 12],
-                    backgroundColor: '#8b5cf6'
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+        function initChart4() {
+            const ctx = document.getElementById('chart4');
+            if (!ctx || ctx.chartInitialized) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Transporte', 'Tecnología', 'Comida', 'Ropa/Moda', 'Otro'],
+                    datasets: [{
+                        label: 'Frecuencia',
+                        data: [25, 21, 18, 15, 12],
+                        backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899', '#6b7280']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Categorías de Gasto Más Frecuentes', font: { size: 18 } }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, title: { display: true, text: 'Número de Estudiantes' } }
+                    }
+                }
+            });
+            ctx.chartInitialized = true;
+        }
 
-        // Gráfico 5: Impulsivas
-        const ctx5 = document.getElementById('chartImpulsivas').getContext('2d');
-        new Chart(ctx5, {
-            type: 'doughnut',
-            data: {
-                labels: ['Nunca', 'Poco frecuente', 'A veces', 'Muy frecuentemente'],
-                datasets: [{
-                    data: [4, 33, 46, 8],
-                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+        function initChart5() {
+            const ctx = document.getElementById('chart5');
+            if (!ctx || ctx.chartInitialized) return;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['A veces (50.55%)', 'Muy frecuentemente (8.79%)', 'Raramente (36.26%)', 'Nunca (4.40%)'],
+                    datasets: [{
+                        data: [46, 8, 33, 4],
+                        backgroundColor: ['#f97316', '#dc2626', '#fbbf24', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 13 } } },
+                        title: { display: false }
+                    }
+                }
+            });
+            ctx.chartInitialized = true;
+        }
+
+        showSlide(0);
     </script>
+
 </body>
+
 </html>

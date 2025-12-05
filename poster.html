@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Póster Científico | Ahorro Universitario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        body { margin: 0; padding: 0; }
+        .poster-container { max-width: 1200px; margin: 0 auto; background: white; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .poster-container { max-width: 100%; box-shadow: none; }
+        }
+        .gradient-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .chart-small { height: 180px; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+
+    <!-- Botones de control -->
+    <div class="no-print max-w-1200px mx-auto mb-4 flex justify-between items-center">
+        <a href="index.html" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+            ← Volver al Inicio
+        </a>
+        <button onclick="window.print()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+            🖨️ Imprimir Póster
+        </button>
+    </div>
+
+    <!-- Póster -->
+    <div class="poster-container shadow-2xl">
+        
+        <!-- Header -->
+        <div class="gradient-header text-white py-8 px-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-center mb-3">
+                AHORRO Y PREOCUPACIÓN FINANCIERA EN UNIVERSITARIOS
+            </h1>
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                <span>Carmen Guevara, A.M.</span>
+                <span>•</span>
+                <span>Fernandes Orozco, C.F.</span>
+                <span>•</span>
+                <span>Cruz Sernaque, J.C.</span>
+                <span>•</span>
+                <span>Santiago Silva, V.R.</span>
+            </div>
+            <p class="text-center text-sm mt-2 text-purple-200">
+                Universidad Tecnológica del Perú - Sede Piura | Facultad de Ingeniería
+            </p>
+        </div>
+
+        <!-- Contenido principal en 4 columnas -->
+        <div class="grid grid-cols-4 gap-4 p-6 bg-white">
+            
+            <!-- COLUMNA 1: Resumen e Introducción -->
+            <div class="space-y-4">
+                
+                <!-- Resumen -->
+                <div class="bg-purple-50 rounded-lg p-4 border-2 border-purple-200">
+                    <h2 class="text-lg font-bold text-purple-700 mb-2 border-b-2 border-purple-300 pb-1">RESUMEN</h2>
+                    <p class="text-xs text-gray-700 leading-relaxed mb-3">
+                        Este estudio analiza hábitos de ahorro y preocupación financiera en 91 estudiantes 
+                        de Ingeniería UTP Piura mediante estadística descriptiva y probabilística.
+                    </p>
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-gray-800">Hallazgos principales:</p>
+                        <ul class="text-xs text-gray-700 space-y-1 mt-1">
+                            <li>• 43.96% ahorra <10% (Media: 14.23%)</li>
+                            <li>• Alta dispersión (Coeficiente de Variacion=71.59%)</li>
+                            <li>• Mujeres ahorran mejor que hombres</li>
+                            <li>• 70% no hace presupuesto consistente  (aveces 17.58% y nunca 52.75%)</li>
+                            <li>• 59.34% compra impulsivamente (aveces y muy frecuentemente)</li>
+                            <li>• 64.84% quiere recibir educación financiera</li>
+                        </ul>
+                    </div>
+                    <p class="text-xs text-gray-600 italic">
+                        <strong>Palabras clave:</strong> ahorro estudiantil, estadística descriptiva, 
+                        Teorema de Bayes, comportamiento financiero
+                    </p>
+                </div>
+
+                <!-- Introducción -->
+                <div class="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
+                    <h2 class="text-lg font-bold text-blue-700 mb-2 border-b-2 border-blue-300 pb-1">INTRODUCCIÓN</h2>
+                    
+                    <p class="text-xs font-semibold text-gray-800 mb-1">Contexto:</p>
+                    <p class="text-xs text-gray-700 mb-2">
+                        El ahorro es esencial para estabilidad financiera, especialmente en estudiantes 
+                        con ingresos limitados y escaso conocimiento económico.
+                    </p>
+
+                    <div class="bg-red-50 border-l-2 border-red-400 pl-2 py-1 mb-2">
+                        <p class="text-xs text-gray-700 italic">
+                            "Los jóvenes poseen escasos conocimientos sobre el uso adecuado de sus finanzas"
+                        </p>
+                        <p class="text-xs text-gray-600">— Estrada et al., 2017</p>
+                    </div>
+
+                    <p class="text-xs font-semibold text-gray-800 mb-1">Objetivos:</p>
+                    <ul class="text-xs text-gray-700 space-y-1">
+                        <li>🎯 Analizar hábitos de ahorro y preocupación</li>
+                        <li>📊 Identificar patrones con estadística descriptiva</li>
+                        <li>🔢 Calcular probabilidades con Teorema de Bayes</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA 2: Metodología -->
+            <div class="space-y-4">
+                
+                <div class="bg-green-50 rounded-lg p-4 border-2 border-green-200">
+                    <h2 class="text-lg font-bold text-green-700 mb-2 border-b-2 border-green-300 pb-1">METODOLOGÍA</h2>
+                    
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-gray-800">Tipo de Investigación:</p>
+                        <ul class="text-xs text-gray-700">
+                            <li>• Cuantitativa, descriptiva-correlacional</li>
+                            <li>• No experimental transversal</li>
+                            <li>• Periodo: Sept-Oct 2025</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-gray-800">Muestra:</p>
+                        <p class="text-xs text-gray-700">
+                            <strong>n = 91</strong> estudiantes Ingeniería UTP Piura
+                        </p>
+                        <div class="flex justify-between mt-1">
+                            <span class="text-xs">👩 46 mujeres (50.5%)</span>
+                            <span class="text-xs">👨 45 hombres (49.5%)</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">Muestreo no probabilístico por conveniencia</p>
+                    </div>
+
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-gray-800">Variables:</p>
+                        <p class="text-xs text-gray-700">
+                            <strong>Cuantitativas:</strong> Porcentaje de ahorro
+                        </p>
+                        <p class="text-xs text-gray-700 mt-1">
+                            <strong>Cualitativas:</strong> Género, frecuencia presupuesto, método ahorro, 
+                            tipo gasto, compras impulsivas, preocupación financiera
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-gray-800">Instrumento:</p>
+                        <ul class="text-xs text-gray-700">
+                            <li>• Encuesta digital (Google Forms)</li>
+                            <li>• 11 preguntas cerradas</li>
+                            <li>• 5 bloques: Demografía, Planificación, Ahorro, Gasto, Percepción</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded p-2">
+                        <p class="text-xs font-semibold text-gray-800">Análisis Estadístico:</p>
+                        <ul class="text-xs text-gray-700">
+                            <li>✓ Tablas de frecuencia y contingencia</li>
+                            <li>✓ Medidas de tendencia central y dispersión</li>
+                            <li>✓ Gráficos descriptivos</li>
+                            <li>✓ Probabilidad condicional y Teorema de Bayes</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA 3: Resultados -->
+            <div class="space-y-3">
+                
+                <div class="bg-orange-50 rounded-lg p-3 border-2 border-orange-200">
+                    <h2 class="text-lg font-bold text-orange-700 mb-2 border-b-2 border-orange-300 pb-1">RESULTADOS</h2>
+                    
+                    <!-- Gráfico 1 -->
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-center mb-1">Distribución del Ahorro</p>
+                        <div class="chart-small">
+                            <canvas id="posterChart1"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-700 mt-1 text-center">
+                            43.96% ahorra <10% | Media: 14.23%
+                        </p>
+                    </div>
+
+                    <!-- Gráfico 2 -->
+                    <div class="bg-white rounded p-2 mb-2">
+                        <p class="text-xs font-semibold text-center mb-1">Ahorro por Género</p>
+                        <div class="chart-small">
+                            <canvas id="posterChart2"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-700 mt-1 text-center">
+                            Mujeres ahorran mejor: 17.39% >30%
+                        </p>
+                    </div>
+
+                    <!-- Gráfico 3 -->
+                    <div class="bg-white rounded p-2">
+                        <p class="text-xs font-semibold text-center mb-1">Compras Impulsivas</p>
+                        <div class="chart-small">
+                            <canvas id="posterChart3"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-700 mt-1 text-center">
+                            59.34% compra impulsivamente
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Análisis Bayesiano -->
+                <div class="bg-purple-100 rounded-lg p-3 border-2 border-purple-300">
+                    <p class="text-xs font-bold text-purple-800 mb-2">PROBABILIDAD CONDICIONAL</p>
+                    <div class="space-y-2 text-xs">
+                        <div class="bg-white rounded p-2">
+                            <p class="font-bold text-purple-600">57.14%</p>
+                            <p class="text-gray-700">Mujeres con gasto en transporte ahorran frecuentemente</p>
+                        </div>
+                        <div class="bg-white rounded p-2">
+                            <p class="font-bold text-purple-600">87.5%</p>
+                            <p class="text-gray-700">De estudiantes que ahorran menos de 10 % <span>SÍ</span> tienen preocupación financiera</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA 4: Conclusiones y Referencias -->
+            <div class="space-y-4">
+                
+                <!-- Conclusiones -->
+                <div class="bg-red-50 rounded-lg p-4 border-2 border-red-200">
+                    <h2 class="text-lg font-bold text-red-700 mb-2 border-b-2 border-red-300 pb-1">CONCLUSIONES</h2>
+                    
+                    <div class="space-y-2 text-xs">
+                        <div class="bg-white rounded p-2">
+                            <p class="font-semibold text-gray-800">1. Cultura de Ahorro Débil</p>
+                            <p class="text-gray-700">43.96% ahorra <10%. Alta dispersion (CV=71.59%)</p>
+                        </div>
+
+                        <div class="bg-white rounded p-2">
+                            <p class="font-semibold text-gray-800">2. Falta de Planificación</p>
+                            <p class="text-gray-700">70% no hace presupuesto consistente</p>
+                        </div>
+
+                        <div class="bg-white rounded p-2">
+                            <p class="font-semibold text-gray-800">3. Diferencias de Género</p>
+                            <p class="text-gray-700">Mujeres: mejores hábitos. Hombres: mayor disposición educativa</p>
+                        </div>
+
+                        <div class="bg-white rounded p-2">
+                            <p class="font-semibold text-gray-800">4. Alto Consumo Impulsivo</p>
+                            <p class="text-gray-700">59.34% compra emocionalmente</p>
+                        </div>
+
+                        <div class="bg-white rounded p-2">
+                            <p class="font-semibold text-gray-800">5. Paradoja Financiera</p>
+                            <p class="text-gray-700">mucha preocupación, pero bajo nivel ahorro. 64.84% quiere educación</p>
+                        </div>
+
+                        <div class="bg-green-100 rounded p-2 mt-2">
+                            <p class="font-semibold text-green-800 text-center">Conclusión General</p>
+                            <p class="text-gray-700">
+                                Necesidad urgente de programas de educación financiera con enfoques diferenciados
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recomendaciones -->
+                <div class="bg-yellow-50 rounded-lg p-4 border-2 border-yellow-200">
+                    <h2 class="text-lg font-bold text-yellow-700 mb-2 border-b-2 border-yellow-300 pb-1">RECOMENDACIONES</h2>
+                    
+                    <div class="space-y-2 text-xs">
+                        <div>
+                            <p class="font-semibold text-gray-800">🏛️ Para la Universidad:</p>
+                            <ul class="text-gray-700 ml-3">
+                                <li>• Talleres de educación financiera</li>
+                                <li>• Incorporar finanzas basicas en malla curricular currículo</li>
+                                <li>• -Fomentar el uso de apps de presupuesto y finanzas</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="font-semibold text-gray-800">👨‍🎓 Para Estudiantes:</p>
+                            <ul class="text-gray-700 ml-3">
+                                <li>• Método de presupuesto 50/30/20</li>
+                                <li>• Ahorro automático 10-15%, haciendo uso de cuentas bancarias</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="font-semibold text-gray-800">🔬 Futuras Investigaciones:</p>
+                            <ul class="text-gray-700 ml-3">
+                                <li>• Ampliar a otras facultades</li>
+                                <li>• Profundizar causas</li>
+                                <li>• Variables adicionales</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referencias -->
+                <div class="bg-gray-50 rounded-lg p-3 border-2 border-gray-200">
+                    <h2 class="text-sm font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">REFERENCIAS</h2>
+                    <div class="space-y-1 text-xs text-gray-700">
+                        <p>• Ramírez & Vázquez (2021). Ciencia Latina, 5(6).</p>
+                        <p>• Estrada et al. (2017). Conocimientos financieros.</p>
+                        <p>• Aponte (2017). Cultura de ahorro.</p>
+                        <p>• López (2016). Finanzas personales.</p>
+                        <p>• Sierra (2018). Educación financiera.</p>
+                        <p>• Elgegren (2021). Fondos de ahorro.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-800 text-white text-center py-3 text-xs">
+            <p>Docente: Jimmy José Martin Zapata Navarro | Curso: Estadística Descriptiva y Probabilidades | UTP Piura 2025</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Configuración común para gráficos pequeños
+        const smallConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: { ticks: { font: { size: 8 } } },
+                y: { ticks: { font: { size: 8 } } }
+            }
+        };
+
+        // Gráfico 1: Distribución
+        new Chart(document.getElementById('posterChart1'), {
+            type: 'bar',
+            data: {
+                labels: ['<10%', '10-20%', '20-30%', '>30%'],
+                datasets: [{
+                    data: [40, 29, 11, 11],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6']
+                }]
+            },
+            options: smallConfig
+        });
+
+        // Gráfico 2: Género
+        new Chart(document.getElementById('posterChart2'), {
+            type: 'bar',
+            data: {
+                labels: ['<10%', '10-20%', '20-30%', '>30%'],
+                datasets: [
+                    { label: 'M', data: [16, 16, 6, 8], backgroundColor: '#ec4899' },
+                    { label: 'H', data: [24, 13, 5, 3], backgroundColor: '#3b82f6' }
+                ]
+            },
+            options: {
+                ...smallConfig,
+                plugins: { legend: { display: true, labels: { font: { size: 8 } } } }
+            }
+        });
+
+        // Gráfico 3: Impulsivas
+        new Chart(document.getElementById('posterChart3'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Nunca', 'Poco', 'A veces', 'Muy'],
+                datasets: [{
+                    data: [4, 33, 46, 8],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'bottom', labels: { font: { size: 7 } } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
