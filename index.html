@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro y Preocupación Financiera en Universitarios | UTP Piura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .section-animate { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .chart-container { position: relative; height: 300px; margin: 20px 0; }
+        @media print { .no-print { display: none; } }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Header/Navigation -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-purple-600 font-bold text-xl">UTP</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">Proyecto de Estadística</h1>
+                        <p class="text-sm text-purple-200">Ingeniería - UTP Piura</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#inicio" class="hover:text-purple-200 transition">Inicio</a>
+                    <a href="#metodologia" class="hover:text-purple-200 transition">Metodología</a>
+                    <a href="#resultados" class="hover:text-purple-200 transition">Resultados</a>
+                    <a href="#conclusiones" class="hover:text-purple-200 transition">Conclusiones</a>
+                    <a href="#autores" class="hover:text-purple-200 transition">Autores</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 section-animate">
+                Ahorro y Preocupación Financiera en Universitarios
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-purple-100 section-animate" style="animation-delay: 0.2s">
+                Análisis Estadístico en Estudiantes de Ingeniería UTP Piura
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 section-animate" style="animation-delay: 0.4s">
+                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
+                    <p class="text-3xl font-bold">91</p>
+                    <p class="text-sm">Estudiantes</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
+                    <p class="text-3xl font-bold">14.23%</p>
+                    <p class="text-sm">Ahorro Promedio</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg rounded-lg p-4">
+                    <p class="text-3xl font-bold">64.84%</p>
+                    <p class="text-sm">Quiere Educación</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resumen -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Resumen Ejecutivo</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Este estudio analiza los hábitos de ahorro y preocupación financiera de 91 estudiantes 
+                    de la Facultad de Ingeniería de la UTP Piura mediante técnicas de estadística descriptiva 
+                    y probabilística. Los resultados revelan una cultura de ahorro débil y heterogénea, con 
+                    oportunidades claras de intervención educativa.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 mt-8">
+                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
+                        <div class="text-red-500 text-4xl mb-3">⚠️</div>
+                        <h3 class="font-bold text-lg mb-2">Problema Principal</h3>
+                        <p class="text-gray-600">43.96% ahorra menos del 10% de sus ingresos</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
+                        <div class="text-blue-500 text-4xl mb-3">📊</div>
+                        <h3 class="font-bold text-lg mb-2">Alta Dispersión</h3>
+                        <p class="text-gray-600">CV = 71.59% indica comportamientos muy heterogéneos</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-6 shadow-md card-hover">
+                        <div class="text-green-500 text-4xl mb-3">✅</div>
+                        <h3 class="font-bold text-lg mb-2">Oportunidad</h3>
+                        <p class="text-gray-600">64.84% está interesado en educación financiera</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metodología -->
+    <section id="metodologia" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Metodología</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-purple-50 to-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-purple-600 text-3xl mb-4">🔬</div>
+                    <h3 class="text-xl font-bold mb-3">Tipo de Investigación</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>• Cuantitativa</li>
+                        <li>• Descriptiva-correlacional</li>
+                        <li>• No experimental transversal</li>
+                        <li>• Sept-Oct 2025</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-blue-600 text-3xl mb-4">👥</div>
+                    <h3 class="text-xl font-bold mb-3">Muestra</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>• <strong>n = 91</strong> estudiantes</li>
+                        <li>• 46 mujeres (50.5%)</li>
+                        <li>• 45 hombres (49.5%)</li>
+                        <li>• Muestreo no probabilístico</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-white rounded-xl p-6 shadow-lg card-hover">
+                    <div class="text-green-600 text-3xl mb-4">📝</div>
+                    <h3 class="text-xl font-bold mb-3">Instrumento</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>• Encuesta digital (Google Forms)</li>
+                        <li>• 11 preguntas cerradas</li>
+                        <li>• 5 bloques temáticos</li>
+                        <li>• Participación voluntaria</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resultados -->
+    <section id="resultados" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Resultados Principales</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+
+            <!-- Gráfico 1 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Distribución del Porcentaje de Ahorro</h3>
+                <div class="chart-container">
+                    <canvas id="chartAhorro"></canvas>
+                </div>
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <p class="text-gray-700">
+                        <strong>Análisis:</strong> 43.96% ahorra menos del 10%. Media: 14.23%, Mediana: 11.90%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Gráfico 2 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Comparación por Género</h3>
+                <div class="chart-container">
+                    <canvas id="chartGenero"></canvas>
+                </div>
+                <div class="mt-6 p-4 bg-purple-50 rounded-lg">
+                    <p class="text-gray-700">
+                        <strong>Análisis:</strong> Mujeres ahorran mejor: 17.39% >30% vs 6.67% en hombres.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Más Gráficos -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Frecuencia de Presupuesto</h3>
+                <div class="chart-container">
+                    <canvas id="chartPresupuesto"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Tipo de Gasto</h3>
+                <div class="chart-container">
+                    <canvas id="chartGasto"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Compras Impulsivas</h3>
+                <div class="chart-container">
+                    <canvas id="chartImpulsivas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusiones -->
+    <section id="conclusiones" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Conclusiones y Recomendaciones</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 text-purple-600">Conclusiones Principales</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li>✓ Cultura de ahorro débil (43.96% <10%)</li>
+                        <li>✓ Falta de planificación (70% sin presupuesto)</li>
+                        <li>✓ Mujeres ahorran mejor que hombres</li>
+                        <li>✓ Alto consumo impulsivo (59.34%)</li>
+                        <li>✓ 64.84% quiere educación financiera</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 text-green-600">Recomendaciones</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li>🏛️ Talleres de educación financiera</li>
+                        <li>👨‍🎓 Método 50/30/20 para estudiantes</li>
+                        <li>💰 Ahorro automático mensual</li>
+                        <li>📱 Apps de presupuesto</li>
+                        <li>🔬 Ampliar investigación a otras facultades</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Autores -->
+    <section id="autores" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Equipo de Investigación</h2>
+                <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-purple-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                        👩‍💼
+                    </div>
+                    <h3 class="font-bold text-lg">Adriana Mercedes Carmen Guevara</h3>
+                    <p class="text-gray-600">Investigadora</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-blue-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                        👨‍💼
+                    </div>
+                    <h3 class="font-bold text-lg">Carlos Fabricio Fernandes Orozco</h3>
+                    <p class="text-gray-600">Investigador</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-32 h-32 bg-green-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl">
+                        👨‍💼
+                    </div>
+                    <h3 class="font-bold text-lg">Jonatan Caleb Cruz Sernaque</h3>
+                    <p class="text-gray-600">Investigador</p>
+                </div>
+            </div>
+
+            <div class="text-center bg-gray-50 rounded-xl p-6">
+                <p class="text-gray-700 mb-2">
+                    <strong>Docente:</strong> Jimmy José Martin Zapata Navarro
+                </p>
+                <p class="text-gray-700 mb-2">
+                    <strong>Curso:</strong> Estadística Descriptiva y Probabilidades
+                </p>
+                <p class="text-gray-700">
+                    <strong>Universidad:</strong> Universidad Tecnológica del Perú - Sede Piura
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>© 2025 UTP Piura - Proyecto de Estadística</p>
+            <p class="text-sm text-purple-200 mt-2">Facultad de Ingeniería</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gráfico 1: Distribución de Ahorro
+        const ctx1 = document.getElementById('chartAhorro').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Menos del 10%', 'Entre 10% y 20%', 'Entre 20% y 30%', 'Más del 30%'],
+                datasets: [{
+                    label: 'Frecuencia',
+                    data: [40, 29, 11, 11],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'n = 91 estudiantes' }
+                }
+            }
+        });
+
+        // Gráfico 2: Género
+        const ctx2 = document.getElementById('chartGenero').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Menos del 10%', '10-20%', '20-30%', 'Más 30%'],
+                datasets: [{
+                    label: 'Mujeres',
+                    data: [16, 16, 6, 8],
+                    backgroundColor: '#ec4899'
+                }, {
+                    label: 'Hombres',
+                    data: [24, 13, 5, 3],
+                    backgroundColor: '#3b82f6'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico 3: Presupuesto
+        const ctx3 = document.getElementById('chartPresupuesto').getContext('2d');
+        new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['Nunca', 'A veces', 'Siempre'],
+                datasets: [{
+                    data: [16, 48, 27],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico 4: Gasto
+        const ctx4 = document.getElementById('chartGasto').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Transporte', 'Tecnología', 'Comida', 'Ropa', 'Otro'],
+                datasets: [{
+                    label: 'Frecuencia',
+                    data: [25, 21, 18, 15, 12],
+                    backgroundColor: '#8b5cf6'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico 5: Impulsivas
+        const ctx5 = document.getElementById('chartImpulsivas').getContext('2d');
+        new Chart(ctx5, {
+            type: 'doughnut',
+            data: {
+                labels: ['Nunca', 'Poco frecuente', 'A veces', 'Muy frecuentemente'],
+                datasets: [{
+                    data: [4, 33, 46, 8],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>
